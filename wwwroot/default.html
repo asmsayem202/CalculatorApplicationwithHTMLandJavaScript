@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="jquery-3.7.1.js"></script>
+</head>
+<body>
+    <form id="frm" action="/" method="post">
+
+        <label for="n1">Number 1 :</label>
+        <input type="number" id="n1" required />
+        <br />
+        <label for="n2">Number 2 :</label>
+        <input type="number" id="n2" required />
+        <br />
+
+        <div>
+            <label>Options :</label>
+            <span>
+                <label>Add <input type="radio" name="opt" value="add" /></label>
+                <label>Sub <input type="radio" name="opt" value="sub" /></label>
+                <label>Mul <input type="radio" name="opt" value="mul" /></label>
+                <label>Div <input type="radio" name="opt" value="div" /></label>
+            </span>
+        </div>
+        <div>
+            <button type="submit">Calculate</button>
+            <button type="reset">Reset</button>
+        </div>
+    </form>
+
+    <textarea id="result"></textarea>
+
+    <script>
+        $('#frm').on('submit', function (e) {
+            e.preventDefault();
+            var optVal = $('input[name="opt"]:checked').val();
+            var n1 = $('#n1').val();
+            var n2  = $('#n2').val();
+
+
+            var postValue = {
+                "N1": n1,
+                "N2": n2,
+                "Operation": optVal
+            }
+
+            $.ajax({
+                url: '/',
+                type: "post",
+                data: postValue,
+                dataType: "json",//"json", "html","text"
+                cache: false,
+                success: function (d) {
+                    $('#n1').val(null);
+                    $('#n2').val(null);
+                    $('#result').val(d.Value);
+
+                }
+
+            });
+
+
+
+
+
+        });
+    </script>
+</body>
+</html>
